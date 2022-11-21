@@ -8,6 +8,7 @@ export default function Protected({ children, permissions, I, a, unauthorized }:
     p.push(...el.permissions);
   });
   const ability = createCanInstance(p) as MongoAbility;
+
   return (
     <div>
       <div>{ability.can(I || 'read', a) && children}</div>

@@ -34,5 +34,22 @@ export const ApiMap = Object.freeze({
       description: 'Remove permission',
       method: 'patch'
     }
+  },
+  USER: {
+    CREATE: {
+      url: `${BASE_URL}/users`,
+      descripion: 'Create new user',
+      method: 'post'
+    },
+    LIST: {
+      url: `${BASE_URL}/users`,
+      descripion: 'Get All Users',
+      method: 'get'
+    },
+    GET_GROUPS: {
+      url: `${BASE_URL}/users/group`,
+      descripion: 'Get Users groups',
+      method: 'get'
+    }
   }
 })

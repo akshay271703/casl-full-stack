@@ -23,4 +23,20 @@ a {
     color: white;
     background: black;
   }
+  input{
+    background: #fff;
+    color: #111;
+    width: 100%;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+  }
+  input:focus{
+    outline: none;
+    border-left: 2px solid #222;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }

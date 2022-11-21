@@ -25,7 +25,7 @@ const styles = {
   },
 };
 
-export default function Button({ text, type, onClick }) {
+export default function Button({ text, type, onClick, css }: any) {
   function getButtonStyle(type: string) {
     switch (type) {
       case 'primary':
@@ -39,8 +39,9 @@ export default function Button({ text, type, onClick }) {
     }
   }
   const buttonStyle = getButtonStyle(type);
+  const styledCss = {...buttonStyle, ...css}
   return (
-    <button style={buttonStyle} onClick={onClick}>
+    <button style={styledCss} onClick={onClick}>
       {text}
     </button>
   );

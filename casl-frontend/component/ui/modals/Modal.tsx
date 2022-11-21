@@ -9,7 +9,6 @@ export default function Modal(props: any) {
         padding: '20px',
         background: '#eee',
         zIndex: '10',
-        color: 'black',
         borderRadius: '10px'
       }}
     >
