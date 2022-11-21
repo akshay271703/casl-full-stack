@@ -1,20 +1,12 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { ApiMap } from '../api/apiMap';
-import { api, TMethod } from '../api/useApi';
-import Protected from '../component/authentication';
-import { IPermissionList } from './permissions';
+import { ApiMap } from '../../api/apiMap';
+import { api, TMethod } from '../../api/useApi';
+import Protected from '../../component/authentication';
+import { IPermissionList } from '../permissions';
 
 export default function Home() {
   const [permissions, setPermissions] = useState<IPermissionList[]>([]);
-  const [actions, setData] = useState(['create', 'read', 'update', 'delete']);
-  const [subjects, setSubjects] = useState([
-    'Branch',
-    'Company',
-    'Tenants',
-    'Users',
-  ]);
-
   useEffect(() => {
     try {
       const { GET_LIST } = ApiMap.PERMISSION;
@@ -30,10 +22,10 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>CASL Demo</title>
+        <title>Branch</title>
         <meta name='description' content='Next.Js Implementation for CASL' />
       </Head>
-      <Protected a={'Branch'} permissions={permissions}>
+      <Protected a={'Branch'} permissions={permissions} unauthorized={true}>
         <h1>Branch</h1>
         <button>Testing</button>
       </Protected>
