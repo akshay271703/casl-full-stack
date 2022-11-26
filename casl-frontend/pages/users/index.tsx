@@ -1,44 +1,21 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { ApiMap } from '../../api/apiMap';
-import { api, TMethod } from '../../api/useApi';
 import Protected from '../../component/authentication';
-import { SUBJECTS } from '../../config/Constants';
-import { IPermissionList } from '../permissions';
-import AddUserHeader from '../../component/user/AddUserHeader';
-import UpdateUserModal from '../../component/user/UpdateUserModal';
 import UserList from '../../component/user/UserList';
-
-interface IUserList {
-  firstName: string;
-  lastName: string;
-  email: string;
-  id: string;
-}
+import Button from '../../component/ui/Button';
+import { SUBJECTS } from '../../config/Constants';
+import { BoxCenterV } from '../../component/ui/layouts/Box';
+import AddUserModal from '../../component/user/AddUserModal';
 
 export default function Users() {
-  const [permissions, setPermissions] = useState<IPermissionList[]>([]);
-  const [showAddUser, setShowAddUser] = useState(false);
-  const [selectUser, setSelectedUser] = useState({ userId: '', name: '' });
-
-  function handleOnUpdate(el: IUserList) {
-    setSelectedUser({
-      name: `${el.firstName} ${el.lastName}`,
-      userId: el.id,
-    });
-    setShowAddUser(!showAddUser);
-  }
+  const [permissions, setPermissions] = useState('');
   useEffect(() => {
-    try {
-      const { GET_LIST } = ApiMap.PERMISSION;
-      api(GET_LIST.url, GET_LIST.method as TMethod).then((result) => {
-        const apiResponse = result.data as IPermissionList[];
-        setPermissions(apiResponse);
-      });
-    } catch (error) {
-      console.error(error);
+    const p = localStorage.getItem('permissions');
+    if (p) {
+      setPermissions(JSON.parse(p));
     }
   }, []);
+  const [showAddUser, setShowAddUser] = useState(false);
 
   return (
     <div>
@@ -46,22 +23,28 @@ export default function Users() {
         <title>Users</title>
         <meta name='description' content='Manage users here' />
       </Head>
-      <section style={{ textAlign: 'center' }}>
+      <section style={{ textAlign: 'center', padding: '40px' }}>
         <Protected
           a={SUBJECTS.USERS}
           permissions={permissions}
           unauthorized={true}
         >
-          <h1>Users</h1>
-          <AddUserHeader permissions={permissions} />
-          {showAddUser && (
-            <UpdateUserModal
-              permissions={permissions}
-              selectUser={selectUser}
-            />
-          )}
-          {/* Users List */}
-          <UserList permissions={permissions} handleOnUpdate={handleOnUpdate} />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <section>
+              <h1 style={{ fontWeight: '300' }}>Application Users</h1>
+            </section>
+            <BoxCenterV>
+              <Protected a={'Users'} I='create' permissions={permissions}>
+                <Button
+                  text={'Add Users'}
+                  type={'secondary'}
+                  onClick={() => setShowAddUser(!showAddUser)}
+                />
+              </Protected>
+            </BoxCenterV>
+          </div>
+          <UserList permissions={permissions} />
+          {showAddUser && <AddUserModal closeModal={() => setShowAddUser(false)}/>}
         </Protected>
       </section>
     </div>

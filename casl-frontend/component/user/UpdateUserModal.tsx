@@ -3,7 +3,7 @@ import { ApiMap } from '../../api/apiMap';
 import { api, TMethod } from '../../api/useApi';
 import { ACTIONS, SUBJECTS } from '../../config/Constants';
 import Protected from '../authentication';
-import Chip from '../ui/Chip';
+import Button from '../ui/Button';
 import Modal from '../ui/modals/Modal';
 
 interface IUserRoles {
@@ -11,10 +11,34 @@ interface IUserRoles {
   g_id: string;
 }
 
-export default function UpdateUserModal({ permissions, selectUser }: any) {
+interface IGroupResponse {
+  description: string;
+  id: string;
+  name: string;
+}
+
+export default function UpdateUserModal({
+  permissions,
+  selectUser,
+  closeModal,
+}: any) {
   const [groups, setGroups] = useState([]);
-  const [userGroups, setUserGroups] = useState([])
-  const [testGroups, setTestGroups] = useState(['Super Admin']);
+  const [userGroups, setUserGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState('Unassigned');
+
+  function assignUserGroup() {
+    const { ASSIGN_GROUP } = ApiMap.USER;
+    try {
+      api(ASSIGN_GROUP.url, ASSIGN_GROUP.method as TMethod, {
+        body: {
+          userId: selectUser.userId,
+          groupId: selectedGroup,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function fetchAllGroups() {
     const { GET_LIST } = ApiMap.GROUP;
@@ -24,11 +48,12 @@ export default function UpdateUserModal({ permissions, selectUser }: any) {
   }
 
   function fetchUserGroups() {
-    const  {GET_GROUPS} = ApiMap.USER;
-    api(`${GET_GROUPS.url}/${selectUser.userId}`, GET_GROUPS.method as TMethod)
-    .then(res => setUserGroups(res.data.map((el: IUserRoles) => el.g_name)))
+    const { GET_GROUPS } = ApiMap.USER;
+    api(
+      `${GET_GROUPS.url}/${selectUser.userId}`,
+      GET_GROUPS.method as TMethod
+    ).then((res) => setUserGroups(res.data.map((el: IUserRoles) => el.g_name)));
   }
-
 
   useEffect(() => {
     fetchAllGroups();
@@ -44,11 +69,34 @@ export default function UpdateUserModal({ permissions, selectUser }: any) {
             background: '#eee',
             color: '#222',
             textAlign: 'left',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
-          <p style={{ fontWeight: 300, fontSize: '2rem' }}>
-            Update User Details
-          </p>
+          <section
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              margin: '0 0 20px 0',
+            }}
+          >
+            <p
+              style={{
+                fontWeight: 300,
+                fontSize: '2rem',
+                margin: '0',
+              }}
+            >
+              Update User Details
+            </p>
+            <h1
+              style={{ cursor: 'pointer', marginRight: '20px' }}
+              onClick={closeModal}
+            >
+              X
+            </h1>
+          </section>
           <input
             type='text'
             name='name'
@@ -61,22 +109,34 @@ export default function UpdateUserModal({ permissions, selectUser }: any) {
             placeholder={selectUser.userId}
             disabled
           />
-          <section>
-            <p>Group Member</p>
-            {groups
-              .filter((el: any) => userGroups.includes(el.name as never))
-              .map((group: any) => {
-                return <Chip name={group.name} key={group.id} />;
-              })}
-          </section>
-          <section>
-            <p>Add to groups</p>
-            {groups
-              .filter((el: any) => !userGroups.includes(el.name as never))
-              .map((group: any) => {
-                return <Chip name={group.name} key={group.id} />;
-              })}
-          </section>
+          <select
+            style={{
+              width: '100%',
+              padding: '8px',
+              background: '#fff',
+              color: '#222',
+              borderRadius: '10px',
+              border: 'none',
+              letterSpacing: '1px',
+            }}
+            onChange={(evt) => setSelectedGroup(evt.target.value)}
+          >
+            <option value='null'>Unassigned</option>
+            {groups.map((el: IGroupResponse, index) => {
+              return (
+                <option value={el.id} key={el.id} selected={ el.id === selectUser.groupId}>
+                  {el.name}
+                </option>
+              );
+            })}
+          </select>
+
+          <Button
+            text={'Save'}
+            type={'secondary'}
+            css={{ marginTop: '20px', padding: '8px 20px' }}
+            onClick={assignUserGroup}
+          />
         </section>
       </Modal>
     </Protected>

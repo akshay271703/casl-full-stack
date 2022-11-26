@@ -15,6 +15,14 @@ a {
   box-sizing: border-box;
 }
 
+p {
+  margin: 0
+}
+
+.hover-dim-bg:hover{
+  background: #333;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

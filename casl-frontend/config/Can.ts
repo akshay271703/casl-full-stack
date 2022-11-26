@@ -1,4 +1,3 @@
-import { createCanBoundTo, useAbility } from '@casl/react';
 import { createMongoAbility, MongoAbility } from '@casl/ability';
 
 export interface CASLAbility {

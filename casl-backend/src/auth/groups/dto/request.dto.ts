@@ -15,3 +15,15 @@ export class CreatePermissionDto {
   fields?: any;
   condition?: any;
 }
+
+export class DeletePermissionDto {
+  @IsString()
+  @IsNotEmpty()
+  groupId: string;
+
+  @IsNotEmpty()
+  action: TPermissionAction;
+
+  @IsNotEmpty()
+  subject: string;
+}

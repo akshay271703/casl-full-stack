@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Base } from './Base.entity';
 
 @Entity({ name: 'permission' })
+@Unique(["groupId", "subject", "action"])
 export class Permission extends Base {
   @PrimaryGeneratedColumn('uuid')
   id: string;

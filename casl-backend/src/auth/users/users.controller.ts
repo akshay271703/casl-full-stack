@@ -27,6 +27,11 @@ export class UsersController {
     return this.usersService.getUserPermissions(id);
   }
 
+  @Get('/group/:userId')
+  async getUserGroups(@Param('userId') userId: string) {
+    return await this.usersService.getUserGroups(userId)
+  }
+
   @Post('/group/assign')
   async assignGroupToUser(@Body() data: CreateUserGroupRequestDto) {
     return await this.usersService.assignGroupToUser(data);

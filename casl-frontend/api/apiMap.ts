@@ -50,6 +50,18 @@ export const ApiMap = Object.freeze({
       url: `${BASE_URL}/users/group`,
       descripion: 'Get Users groups',
       method: 'get'
+    },
+    ASSIGN_GROUP: {
+      url: `${BASE_URL}/users/group/assign`,
+      description: 'Assign user to a group',
+      method: 'post'
+    }
+  },
+  AUTH: {
+    LOGIN: {
+      url: `${BASE_URL}/auth/login`,
+      description: 'Sign In a user',
+      method: 'post'
     }
   }
 })

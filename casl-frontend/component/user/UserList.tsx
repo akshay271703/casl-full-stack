@@ -2,18 +2,25 @@ import { useEffect, useState } from 'react';
 import { ApiMap } from '../../api/apiMap';
 import { api, TMethod } from '../../api/useApi';
 import { ACTIONS, SUBJECTS } from '../../config/Constants';
+import { IUserList } from '../../dto/users.dto';
 import Protected from '../authentication';
 import Button from '../ui/Button';
+import UpdateUserModal from './UpdateUserModal';
 
-interface IUserList {
-  firstName: string;
-  lastName: string;
-  email: string;
-  id: string;
-}
-
-export default function UserList({ permissions, handleOnUpdate }: any) {
+export default function UserList({ permissions }: any) {
   const [userList, setUserList] = useState([]);
+
+  const [selectUser, setSelectedUser] = useState({ userId: '', name: '', groupId: '' });
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  function handleOnUpdate(el: IUserList) {
+    setSelectedUser({
+      name: `${el.firstName} ${el.lastName}`,
+      userId: el.id,
+      groupId: el.groupId
+    });
+    setShowUpdateModal(!showUpdateModal);
+  }
 
   function getUserList() {
     const { LIST } = ApiMap.USER;
@@ -51,14 +58,20 @@ export default function UserList({ permissions, handleOnUpdate }: any) {
                 onClick={() => handleOnUpdate(el)}
                 css={{
                   width: '200px',
-                  height: '30px',
-                  marginTop: '10px',
                 }}
               />
             </Protected>
           </div>
         );
       })}
+
+      {showUpdateModal && (
+        <UpdateUserModal
+          permissions={permissions}
+          selectUser={selectUser}
+          closeModal={() => setShowUpdateModal(false)}
+        />
+      )}
     </section>
   );
 }

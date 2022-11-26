@@ -20,16 +20,36 @@ export class UserRepository extends Repository<User> {
     return await this.findBy(where);
   }
 
+  async getUsersWithRole(): Promise<User[]> {
+    return await this.createQueryBuilder('user')
+    .select(['user.first_name as firstName', 'user.last_name as lastName', 'user.email as email', 'user.id as id', 'ug.group_id as groupId'])
+    .leftJoin(UserGroup, 'ug', 'CAST(ug.user_id as uuid) = CAST(user.id as uuid)')
+    .getRawMany()
+  }
+
   async getUser(where: any = {}): Promise<User> {
     return await this.findOneBy(where);
   }
 
   async getUserPermissions(userId: string): Promise<any> {
     return await this.createQueryBuilder('user')
-      .select(['p.action as action', 'p.subject as subject', 'p.conditions as condition', 'p.fields as fields'])
-      .leftJoin(UserGroup, 'ug', 'CAST(ug.user_id as uuid) = CAST(user.id as uuid)')
+      .select([
+        'p.action as action',
+        'p.subject as subject',
+        'p.conditions as condition',
+        'p.fields as fields',
+      ])
+      .leftJoin(
+        UserGroup,
+        'ug',
+        'CAST(ug.user_id as uuid) = CAST(user.id as uuid)'
+      )
       .leftJoin(Group, 'g', 'CAST(g.id as uuid) = CAST(ug.group_id as uuid)')
-      .leftJoin(Permission, 'p', 'CAST(p.group_id as uuid) = CAST(g.id as uuid)')
+      .leftJoin(
+        Permission,
+        'p',
+        'CAST(p.group_id as uuid) = CAST(g.id as uuid)'
+      )
       .where('user.id = :userId', { userId })
       .printSql()
       .getRawMany();

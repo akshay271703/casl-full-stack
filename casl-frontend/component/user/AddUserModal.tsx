@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { ApiMap } from "../../api/apiMap";
-import { api, TMethod } from "../../api/useApi";
-import Button from "../ui/Button";
-import Modal from "../ui/modals/Modal";
+import { useState } from 'react';
+import { ApiMap } from '../../api/apiMap';
+import { api, TMethod } from '../../api/useApi';
+import { IUserList } from '../../dto/users.dto';
+import Button from '../ui/Button';
+import Modal from '../ui/modals/Modal';
 
-export default function AddUserModal() {
+export default function AddUserModal({ closeModal }: any) {
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -42,7 +44,24 @@ export default function AddUserModal() {
           color: '#222',
         }}
       >
-        <p style={{ fontWeight: 300, fontSize: '2rem' }}>Add New User</p>
+        <section
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+          }}
+        >
+          <p style={{ fontWeight: 300, fontSize: '2rem', margin: '0' }}>
+            Add New User
+          </p>
+          <h1
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+            onClick={closeModal}
+          >
+            X
+          </h1>
+        </section>
         <input
           type='text'
           placeholder='First name'
@@ -72,9 +91,7 @@ export default function AddUserModal() {
           onChange={handleOnChange}
         />
       </section>
-      <section style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button text={'Add'} onClick={createNewUser} type={'primary'} />
-      </section>
+      <Button text={'Add'} onClick={createNewUser} type={'secondary'} css={{ width: '100%', padding: '8px', marginTop: '20px'}} />
     </Modal>
   );
 }
