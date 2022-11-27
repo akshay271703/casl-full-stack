@@ -17,7 +17,4 @@ export class User extends Base {
 
   @Column({ name: 'password', type: 'varchar' })
   password: string;
-
-  @Column({ name: 'is_active', type: 'boolean', default: true })
-  isActive: boolean;
 }
