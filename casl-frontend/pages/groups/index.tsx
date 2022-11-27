@@ -7,7 +7,7 @@ import Protected from '../../component/authentication';
 import AddGroupModal from '../../component/groups/AddGroupModal';
 import GroupListTable from '../../component/groups/GroupList';
 import Button from '../../component/ui/Button';
-import { BoxCenterV } from '../../component/ui/layouts/Box';
+import { BoxCenterV } from '../../component/ui/Box';
 import { IGroupListResponse } from '../../dto/groups.dto';
 
 export default function Groups() {

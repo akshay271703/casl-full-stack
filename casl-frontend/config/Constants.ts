@@ -3,8 +3,9 @@ export const SUBJECTS = Object.freeze({
 })
 
 export const ACTIONS = Object.freeze({
-  READ: 'read',
   CREATE: 'create',
+  READ: 'read',
   UPDATE: 'update',
   DELETE: 'delete'
 })
+

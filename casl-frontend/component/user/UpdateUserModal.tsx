@@ -4,7 +4,7 @@ import { api, TMethod } from '../../api/useApi';
 import { ACTIONS, SUBJECTS } from '../../config/Constants';
 import Protected from '../authentication';
 import Button from '../ui/Button';
-import Modal from '../ui/modals/Modal';
+import Modal from '../ui/Modal';
 
 interface IUserRoles {
   g_name: string;
@@ -124,7 +124,11 @@ export default function UpdateUserModal({
             <option value='null'>Unassigned</option>
             {groups.map((el: IGroupResponse, index) => {
               return (
-                <option value={el.id} key={el.id} selected={ el.id === selectUser.groupId}>
+                <option
+                  value={el.id}
+                  key={el.id}
+                  selected={el.id === selectUser.groupId}
+                >
                   {el.name}
                 </option>
               );

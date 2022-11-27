@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { ApiMap } from '../../api/apiMap';
 import { api, TMethod } from '../../api/useApi';
-import { IUserList } from '../../dto/users.dto';
 import Button from '../ui/Button';
-import Modal from '../ui/modals/Modal';
+import Modal from '../ui/Modal';
 
 export default function AddUserModal({ closeModal }: any) {
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -91,7 +89,12 @@ export default function AddUserModal({ closeModal }: any) {
           onChange={handleOnChange}
         />
       </section>
-      <Button text={'Add'} onClick={createNewUser} type={'secondary'} css={{ width: '100%', padding: '8px', marginTop: '20px'}} />
+      <Button
+        text={'Add'}
+        onClick={createNewUser}
+        type={'secondary'}
+        css={{ width: '100%', padding: '8px', marginTop: '20px' }}
+      />
     </Modal>
   );
 }

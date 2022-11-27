@@ -11,7 +11,6 @@ export class AuthService {
   constructor(private readonly userRepo: UserRepository, private readonly permissionRepo: PermissionRepository) {}
   async login(request: LoginRequestDto): Promise<any> {
     const user = await this.userRepo.getUser({ email: request.email });
-    console.log(user);
     if(!user) {
       throw new NotFoundException('User does not exist')
     }

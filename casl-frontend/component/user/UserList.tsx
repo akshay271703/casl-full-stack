@@ -49,8 +49,7 @@ export default function UserList({ permissions }: any) {
             <Protected
               a={SUBJECTS.USERS}
               I={ACTIONS.UPDATE}
-              permissions={permissions}
-              unauthorized={true}
+              permissions={permissions} 
             >
               <Button
                 text={'Update'}

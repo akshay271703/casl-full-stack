@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { ApiMap } from '../../api/apiMap';
 import { api, TMethod } from '../../api/useApi';
+import { ACTIONS } from '../../config/Constants';
 export default function PermissionRow({
   permissions,
   subject,
   groupId,
   onUpdate,
+  userPermissions,
 }: any) {
-  const [match, setMatch] = useState(['create', 'read', 'update', 'delete']);
-
+  const [match, setMatch] = useState(Object.values(ACTIONS));
   function assignNewPermission(body: any) {
     const { ASSIGN } = ApiMap.PERMISSION;
     api(ASSIGN.url, ASSIGN.method as TMethod, { body }).then((res) => {
@@ -54,6 +55,9 @@ export default function PermissionRow({
                 (el: any) =>
                   el.action === element && el.subject === subject.subject
               )}
+              disabled={userPermissions.find(
+                (el: any) => el.subject === 'Permissions' && el.action === 'update'
+              ) === undefined}
             />
           </span>
         );

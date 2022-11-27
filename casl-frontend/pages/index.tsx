@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ApiMap } from '../api/apiMap';
 import { api, TMethod } from '../api/useApi';
 import Button from '../component/ui/Button';
-import { BoxCenterV } from '../component/ui/layouts/Box';
+import { BoxCenterV } from '../component/ui/Box';
 import { ILoginResponse } from '../dto/auth.dto';
 
 export default function Home() {

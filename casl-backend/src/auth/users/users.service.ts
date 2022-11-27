@@ -20,7 +20,6 @@ export class UsersService {
 
   async findAll(): Promise<GetUserResponseDto[]> {
     const result = await this.userRepo.getUsersWithRole();
-    console.log(result);
     return plainToInstance(GetUserResponseDto, <GetUserResponseDto[]>instanceToPlain(result), {
       excludeExtraneousValues: true,
     });

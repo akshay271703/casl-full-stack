@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { ApiMap } from '../../api/apiMap';
 import { api, TMethod } from '../../api/useApi';
 import Button from '../ui/Button';
-import { BoxCenterH } from '../ui/layouts/Box';
-import Modal from '../ui/modals/Modal';
+import { BoxCenterH } from '../ui/Box';
+import Modal from '../ui/Modal';
 
 export default function AddGroupModal({ permissions, closeModal }: any) {
   const [formData, setFormData] = useState({
@@ -42,7 +42,10 @@ export default function AddGroupModal({ permissions, closeModal }: any) {
           }}
         >
           <p>Add New Group</p>
-          <p style={{ fontWeight: '800', cursor: 'pointer' }} onClick={closeModal}>
+          <p
+            style={{ fontWeight: '800', cursor: 'pointer' }}
+            onClick={closeModal}
+          >
             X
           </p>
         </section>

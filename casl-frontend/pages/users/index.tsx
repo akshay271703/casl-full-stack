@@ -4,7 +4,7 @@ import Protected from '../../component/authentication';
 import UserList from '../../component/user/UserList';
 import Button from '../../component/ui/Button';
 import { SUBJECTS } from '../../config/Constants';
-import { BoxCenterV } from '../../component/ui/layouts/Box';
+import { BoxCenterV } from '../../component/ui/Box';
 import AddUserModal from '../../component/user/AddUserModal';
 
 export default function Users() {
@@ -44,7 +44,9 @@ export default function Users() {
             </BoxCenterV>
           </div>
           <UserList permissions={permissions} />
-          {showAddUser && <AddUserModal closeModal={() => setShowAddUser(false)}/>}
+          {showAddUser && (
+            <AddUserModal closeModal={() => setShowAddUser(false)} />
+          )}
         </Protected>
       </section>
     </div>
